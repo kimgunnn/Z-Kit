@@ -1,0 +1,24 @@
+{
+  "name": "Z Kit",
+  "version": "1.0.0",
+  "description": "Screen Comparison Tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "nodemon --exec electron .",
+    "reset": "git reset --hard"
+  },
+  "repository": "https://github.com/GunnKimKR/Z-Kit",
+  "keywords": [
+    "Screen Comparison Tool"
+  ],
+  "author": "Gunn Kim",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "nodemon": "^2.0.0"
+  },
+  "dependencies": {
+    
+  }
+}

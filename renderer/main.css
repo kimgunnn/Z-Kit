@@ -1,0 +1,146 @@
+/* 
+ * Reset Style
+ */
+
+body, nav, main, ul, ol, li, p, button, strong, p, div, span {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+  vertical-align: top;
+}
+
+/* 
+ * Common Style
+ */
+
+html, body {
+  height: 100%;
+  background-color: #fff;
+  user-select: none;
+}
+
+body, input, select, textarea, table, button {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.gnb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 7px #7d7d7d;
+}
+
+.gnb__list {
+  padding: 20px;
+  display: flex;
+  gap: 0 20px;
+  overflow-x: auto;
+}
+
+.gnb__item {
+  width: 100%;
+  min-width: 150px
+}
+
+.gnb__item > button {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #333;
+  box-sizing: border-box;
+}
+
+main {
+  min-height: 100%;
+  margin-top: -78px;
+  padding-top: 156px;
+  box-sizing: border-box;
+}
+
+.window-list-container {
+  padding: 30px;
+}
+
+.window-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.window-list > li {
+  width: calc(100% / 3 - 20px);
+  min-width: 200px;
+}
+
+.window-item-box {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #333;
+  font-size: 14px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.window-item-box strong {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.window-item-box p {
+  margin-top: 5px;
+}
+
+.window-item-box p > span {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.window-list:empty::after {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+  color: #cacaca;
+  content: 'No windows were created.';
+}
+
+.window-list > li .icon-checkmark {
+  position: absolute;
+  top: -24px;
+  right: -15px;
+  width: 42px;
+  display: none;
+}
+
+.window-list > li.selected .icon-checkmark {
+  display: block;
+}

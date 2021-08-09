@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'"> -->
+    <title>Z Kit</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+
+      <nav class="gnb">
+        <ul class="gnb__list">
+          <li class="gnb__item">
+            <button>New Window</button>
+          </li>
+          <li class="gnb__item">
+            <button>Copy Diff</button>
+          </li>
+          <li class="gnb__item">
+            <button>Image Diff</button>
+          </li>
+          <li class="gnb__item">
+            <button>Window Resizing</button>
+          </li>
+          <li class="gnb__item">
+            <button>Scroll Sync</button>
+          </li>
+          <li class="gnb__item">
+            <button>Bookmarklet</button>
+          </li>
+        </ul>
+      </nav>
+
+    <main>
+      <div class="window-list-container">
+        <ul class="window-list"><!--
+          <li class="selected">
+            <div class="window-item-box">
+              <strong>Microsoft – Cloud, Computers, Apps & Gaming</strong>
+              <p><span>https://www.microsoft.com/en-us</span></p>
+              <div class="icon icon-checkmark">
+                <img src="./images/icon_checkmark.png" alt="">
+              </div>
+            </div>
+          </li>
+      --></ul>
+      </div>
+    </main>
+
+    <script>
+      require('./app')
+    </script>
+  </body>
+</html>
