@@ -19,6 +19,6 @@
     "nodemon": "^2.0.0"
   },
   "dependencies": {
-    
+    "electron-window-state": "^5.0.3"
   }
 }

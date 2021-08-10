@@ -1,11 +1,15 @@
 const {app, BrowserWindow} = require('electron')
+const windowStateKeeper = require('electron-window-state')
 
 let mainWindow
 
 function createWindow () {
 
+  // Window state keeper
+  let state = windowStateKeeper()
+
   mainWindow = new BrowserWindow({
-    x: 0, y: 0,
+    x: state.x, y: state.y,
     width: 1050, height: 450,
     resizable: false,
     webPreferences: {
@@ -16,6 +20,9 @@ function createWindow () {
 
   // Load index.html into the new BrowserWindow
   mainWindow.loadFile('renderer/main.html')
+
+  // Manage new window state
+  state.manage(mainWindow)
 
   // Open DevTools
   // mainWindow.webContents.openDevTools();
