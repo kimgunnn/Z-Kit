@@ -1,7 +1,18 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
+const readItemWindow = require('./readItemWindow')
 
 let mainWindow
+
+// Listen for new window request
+ipcMain.on('new-window', (e, windowUrl) => {
+  
+  // Get new window and send back to renderer
+  readItemWindow( windowUrl, itemWindow => {
+    e.sender.send('new-window-success', itemWindow)
+  })
+  
+})
 
 function createWindow () {
 
