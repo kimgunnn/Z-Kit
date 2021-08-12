@@ -11,22 +11,22 @@
       <nav class="gnb">
         <ul class="gnb__list">
           <li class="gnb__item">
-            <button>New Window</button>
+            <button class="btn btn--modal-trigger">New Window</button>
           </li>
           <li class="gnb__item">
-            <button>Copy Diff</button>
+            <button class="btn">Copy Diff</button>
           </li>
           <li class="gnb__item">
-            <button>Image Diff</button>
+            <button class="btn">Image Diff</button>
           </li>
           <li class="gnb__item">
-            <button>Window Resizing</button>
+            <button class="btn">Window Resizing</button>
           </li>
           <li class="gnb__item">
-            <button>Scroll Sync</button>
+            <button class="btn">Scroll Sync</button>
           </li>
           <li class="gnb__item">
-            <button>Bookmarklet</button>
+            <button class="btn">Bookmarklet</button>
           </li>
         </ul>
       </nav>
@@ -46,6 +46,17 @@
       --></ul>
       </div>
     </main>
+
+    <div class="modal">
+      <div class="modal-content">
+        <p>Please enter a url.</p>
+        <input type="text" class="input input--url">
+        <div class="btn-group btn-group--row">
+          <button class="btn btn--cancel btn--modal-close">Cancel</button>
+          <button class="btn btn--ok btn--add-window">OK</button>
+        </div>
+      </div>
+    </div>
 
     <script>
       require('./app')

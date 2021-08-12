@@ -2,7 +2,7 @@
  * Reset Style
  */
 
-body, nav, main, ul, ol, li, p, button, strong, p, div, span {
+body, nav, main, ul, ol, li, p, button, input, strong, p, div, span {
   margin: 0;
   padding: 0;
 }
@@ -13,10 +13,19 @@ ul, ol {
 
 button {
   border: none;
+  box-sizing: border-box;
   background-color: transparent;
   outline: none;
   appearance: none;
   cursor: pointer;
+}
+
+input {
+  border: none;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
+  appearance: none;
 }
 
 img {
@@ -69,7 +78,6 @@ body, input, select, textarea, table, button {
   width: 100%;
   padding: 6px 10px;
   border: 1px solid #333;
-  box-sizing: border-box;
 }
 
 main {
@@ -143,4 +151,54 @@ main {
 
 .window-list > li.selected .icon-checkmark {
   display: block;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 110;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,.85);
+  display: none;
+}
+
+.modal-open {
+  display: flex;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px 0;
+  width: 400px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.modal-content > :nth-child(n) {
+  width: 100%;
+}
+
+.input--url {
+  border: 1px solid #333;
+  padding: 6px 10px;
+}
+
+.btn-group--row {
+  display: flex;
+  gap: 0 15px;
+}
+
+.btn-group--row .btn {
+  flex: 1 1 50%;
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #333;
 }
