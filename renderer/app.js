@@ -54,7 +54,7 @@ addWindowBtn.addEventListener('click', e => {
 ipcRenderer.on('new-window-success', (e, newWindow) => {
   
   // Add new itemWindow to "itemWindows" node
-  itemWindows.addItem(newWindow)
+  itemWindows.addItem(newWindow, true)
 
   // Enable buttons
   toggleModalbuttons()
