@@ -1,6 +1,6 @@
 // Module
 const {ipcRenderer} = require('electron')
-const itemWindows = require('./itemWindows')
+const windowItems = require('./windowItems')
 
 // Dom nodes
 let modal = document.querySelector('.modal'),
@@ -43,7 +43,7 @@ addWindowBtn.addEventListener('click', e => {
   if(windowUrl.value) {
 
     // Send new window url to main process
-    ipcRenderer.send('new-window', windowUrl.value)
+    ipcRenderer.send('new-windowItem', windowUrl.value)
 
     // Disable buttons
     toggleModalbuttons()
@@ -51,10 +51,10 @@ addWindowBtn.addEventListener('click', e => {
 })
 
 // Listen for new window from main process
-ipcRenderer.on('new-window-success', (e, newWindow) => {
+ipcRenderer.on('new-windowItem-success', (e, newWindow) => {
   
-  // Add new itemWindow to "itemWindows" node
-  itemWindows.addItem(newWindow, true)
+  // Add new windowItem to "windowItems" node
+  windowItems.addItem(newWindow, true)
 
   // Enable buttons
   toggleModalbuttons()

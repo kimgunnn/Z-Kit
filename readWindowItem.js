@@ -4,7 +4,7 @@ const {BrowserWindow} = require('electron')
 // Offscreen BrowserWindow
 let offscreenWindow
 
-// Exported readItemWindow function
+// Exported readWindowItem function
 module.exports = (url, callback) => {
 
   // Create offscreen window
@@ -17,7 +17,7 @@ module.exports = (url, callback) => {
     }
   })
 
-  // Load itemWindow url
+  // Load WindowItem url
   offscreenWindow.loadURL(url)
 
   // Wait for content to finish loading
@@ -26,7 +26,7 @@ module.exports = (url, callback) => {
     // Get page title
     let title = offscreenWindow.getTitle()
 
-    // Execute callback with new itemWindow object
+    // Execute callback with new WindowItem object
     callback( {title, url} )
 
     // Clean up
