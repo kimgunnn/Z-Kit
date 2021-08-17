@@ -9,6 +9,21 @@ exports.save = () => {
   localStorage.setItem('window-items', JSON.stringify(this.storage))
 }
 
+// Set item as selected
+exports.select = eventTarget => {
+
+  if( eventTarget.target.parentNode.classList.contains('icon-checkmark') ) {
+    eventTarget.target.parentNode.parentNode.parentNode.parentNode.classList.toggle('selected')
+  }
+}
+
+exports.toggleBtn = eventTarget => {
+
+  if( eventTarget.target.parentNode.classList.contains('icon-plus') ) {
+    eventTarget.target.parentNode.classList.toggle('active')
+  }
+}
+
 // Add new WindowItem
 exports.addItem = (item, isNew = false) => {
 
@@ -18,9 +33,12 @@ exports.addItem = (item, isNew = false) => {
   // Add inner HTML
   itemNode.innerHTML = `
     <div class="window-item-box">
-      <strong>${item.title}</strong>
-      <p><span>${item.url}</span></p>
+      <strong title="${item.title}">${item.title}</strong>
+      <p><span title="${item.url}">${item.url}</span></p>
       <div class="icon-box">
+        <div class="icon icon-plus">
+          <img src="./images/icon_plus.png" alt="">
+        </div>
         <div class="icon icon-checkmark">
           <img src="./images/icon_checkmark.png" alt="">
         </div>
@@ -33,6 +51,15 @@ exports.addItem = (item, isNew = false) => {
 
   // Append new node to "windowList"
   windowList.appendChild(itemNode)
+
+  // Attach click handler to select
+  itemNode.addEventListener('click', e => {
+    this.select(e)
+  })
+
+  itemNode.addEventListener('click', e => {
+    this.toggleBtn(e)
+  })
 
   // Add window item to storage and persist
   if(isNew) {

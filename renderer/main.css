@@ -97,41 +97,6 @@ main {
   gap: 30px;
 }
 
-.window-list > li {
-  width: calc(100% / 3 - 20px);
-  min-width: 200px;
-}
-
-.window-item-box {
-  position: relative;
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #333;
-  font-size: 14px;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
-.window-item-box strong {
-  display: inline-block;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.window-item-box p {
-  margin-top: 5px;
-}
-
-.window-item-box p > span {
-  display: inline-block;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .window-list:empty::after {
   display: block;
   width: 100%;
@@ -141,16 +106,103 @@ main {
   content: 'No windows were created.';
 }
 
-.window-list > li .icon-checkmark {
+.window-list > li {
+  width: calc(100% / 3 - 20px);
+  min-width: 200px;
+}
+
+.window-list > li .window-item-box {
+  position: relative;
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #333;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: box-shadow .3s
+}
+
+.window-list > li.selected .window-item-box {
+  box-shadow: inset 0px -7px 0px #38b47b;
+}
+
+.window-list > li .window-item-box strong {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.window-list > li .window-item-box p {
+  margin-top: 5px;
+}
+
+.window-list > li .window-item-box p > span {
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.window-list > li .icon-box {
   position: absolute;
   top: -24px;
   right: -15px;
-  width: 42px;
-  display: none;
+  display: flex;
 }
 
-.window-list > li.selected .icon-checkmark {
-  display: block;
+.window-list > li .icon-box .icon:not(.icon-plus) {
+  position: absolute;
+  top: 1.5px;
+  right: 3px;
+  width: 38px;
+  filter: brightness(0.4);
+  transition: right .3s ease, transform .3s, filter .2s;
+}
+
+.window-list > li .icon-box .icon-plus {
+  position: relative;
+  top: 0;
+  z-index: 10;
+  width: 42px;
+  transition: transform .3s;
+}
+
+.window-list > li .window-item-box .icon-box .icon-checkmark {
+  transition-duration: .3s, .4s, .2s;
+}
+
+.window-list > li .icon-box .icon-plus.active {
+  transform: rotate(225deg);
+}
+
+.window-list > li .icon-box .icon-plus.active ~ .icon-checkmark {
+  right: 84px;
+  transform: rotate(360deg);
+}
+
+.window-list > li .icon-box .icon-plus.active ~ .icon-delete {
+  right: 43px;
+  transform: rotate(360deg);
+}
+
+.window-list > li .icon-box .icon-checkmark img {
+  transition: filter .1s;
+}
+
+.window-list > li .icon-box .icon:hover {
+  filter: brightness(1);
+}
+
+.window-list > li.selected .icon-box .icon-checkmark {
+  filter: brightness(1);
+}
+
+.window-list > li.selected .icon-box .icon-checkmark img {
+  filter: drop-shadow(2px 3px 3px rgba(0,0,0,0.7))
 }
 
 .modal {
