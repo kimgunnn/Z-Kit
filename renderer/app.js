@@ -50,11 +50,19 @@ addWindowBtn.addEventListener('click', e => {
   }
 })
 
+// Listen for keyboard submit
+windowUrl.addEventListener('keyup', e => {
+
+  if(e.key == 'Enter') {
+    addWindowBtn.click()
+  }
+})
+
 // Listen for new window from main process
-ipcRenderer.on('new-windowItem-success', (e, newWindow) => {
+ipcRenderer.on('new-windowItem-success', (e, newWindowTitle, newWindowUrl) => {
   
   // Add new windowItem to "windowItems" node
-  windowItems.addItem(newWindow, true)
+  windowItems.addItem(newWindowTitle, newWindowUrl, true)
 
   // Enable buttons
   toggleModalbuttons()
@@ -62,12 +70,4 @@ ipcRenderer.on('new-windowItem-success', (e, newWindow) => {
   // Hide modal and clear value
   modal.classList.remove('modal-open')
   windowUrl.value = '';
-})
-
-// Listen for keyboard submit
-windowUrl.addEventListener('keyup', e => {
-
-  if(e.key == 'Enter') {
-    addWindowBtn.click()
-  }
 })

@@ -1,36 +1,36 @@
 // Modules
 const {BrowserWindow} = require('electron')
 
-// Offscreen BrowserWindow
-let offscreenWindow
-
 // Exported readWindowItem function
 module.exports = (url, callback) => {
 
-  // Create offscreen window
-  offscreenWindow = new BrowserWindow({
-    width: 500,
-    height: 500,
-    show: false,
-    webPreferences: {
-      offscreen: true
-    }
+  // sub BrowserWindow
+  let subWindow
+
+  // Create sub window
+  subWindow = new BrowserWindow({
+    width: 375,
+    height: 695,
+    minWidth: 280,
+    minHeight: 681,
+    show: false
   })
 
   // Load WindowItem url
-  offscreenWindow.loadURL(url)
-
-  // Wait for content to finish loading
-  offscreenWindow.webContents.on('did-finish-load', e => {
-
-    // Get page title
-    let title = offscreenWindow.getTitle()
-
-    // Execute callback with new WindowItem object
-    callback( {title, url} )
-
-    // Clean up
-    offscreenWindow.close()
-    offscreenWindow = null
+  subWindow.loadURL(url)
+  
+  subWindow.on('close', e => {
+    e.preventDefault()
+    subWindow.hide()
   })
+
+  if(callback) {
+
+    subWindow.webContents.on('did-finish-load', e => {
+      let title = subWindow.getTitle()
+      callback( {subWindow, title, url} )
+    })
+  } else {
+    return subWindow
+  }
 }

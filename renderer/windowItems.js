@@ -1,3 +1,6 @@
+// Module
+const {ipcRenderer} = require('electron')
+
 // DOM nodes
 let windowList = document.querySelector('.window-list')
 
@@ -25,7 +28,7 @@ exports.toggleBtn = eventTarget => {
 }
 
 // Add new WindowItem
-exports.addItem = (item, isNew = false) => {
+exports.addItem = (itemTitle, itemUrl, isNew = false) => {
 
   // Create a new DOM node
   let itemNode = document.createElement('li')
@@ -33,8 +36,8 @@ exports.addItem = (item, isNew = false) => {
   // Add inner HTML
   itemNode.innerHTML = `
     <div class="window-item-box">
-      <strong title="${item.title}">${item.title}</strong>
-      <p><span title="${item.url}">${item.url}</span></p>
+      <strong title="${itemTitle}">${itemTitle}</strong>
+      <p><span title="${itemUrl}">${itemUrl}</span></p>
       <div class="icon-box">
         <div class="icon icon-plus">
           <img src="./images/icon_plus.png" alt="">
@@ -63,12 +66,16 @@ exports.addItem = (item, isNew = false) => {
 
   // Add window item to storage and persist
   if(isNew) {
-    this.storage.push(item)
+    this.storage.push({itemTitle, itemUrl})
     this.save()
   }
 }
 
 // Add window item from storage when app loads
 this.storage.forEach( item => {
-  this.addItem(item)
+  this.addItem(item.itemTitle, item.itemUrl)
+})
+
+ipcRenderer.on('main-window-finish-load', () => {
+  ipcRenderer.send('window-items', this.storage)
 })

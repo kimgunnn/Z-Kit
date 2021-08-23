@@ -3,15 +3,25 @@ const windowStateKeeper = require('electron-window-state')
 const readWindowItem = require('./readWindowItem')
 
 let mainWindow
+let arrSubWindows = []
 
 // Listen for new window request
 ipcMain.on('new-windowItem', (e, windowUrl) => {
   
   // Get new window and send back to renderer
-  readWindowItem( windowUrl, windowItem => {
-    e.sender.send('new-windowItem-success', windowItem)
+  readWindowItem(windowUrl, getWindowInfo => {
+    arrSubWindows.push(getWindowInfo.subWindow)
+    e.sender.send('new-windowItem-success', getWindowInfo.title, getWindowInfo.url)
   })
-  
+})
+
+ipcMain.on('window-items', (e, windowItems) => {
+  if(!windowItems.length) {
+    return
+  }
+  windowItems.forEach(item => {
+    arrSubWindows.push(readWindowItem(item.itemUrl))
+  })
 })
 
 function createWindow () {
@@ -38,8 +48,17 @@ function createWindow () {
   // Open DevTools
   // mainWindow.webContents.openDevTools();
 
+  // Send renderer a message when app is active
+  mainWindow.webContents.once('did-finish-load', e => {
+    e.sender.send('main-window-finish-load')
+  })
+
   // Listen for window being closed
   mainWindow.on('closed',  () => {
+    arrSubWindows.forEach(item => {
+      item.destroy()
+    })
+    arrSubWindows = []
     mainWindow = null
   })
 }
