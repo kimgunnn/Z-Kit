@@ -13,22 +13,22 @@ exports.save = () => {
 }
 
 // Set item as selected
-exports.select = eventTarget => {
+exports.select = e => {
 
-  if( eventTarget.target.parentNode.classList.contains('icon-checkmark') ) {
-    eventTarget.target.parentNode.parentNode.parentNode.parentNode.classList.toggle('selected')
+  if( e.target.parentNode.classList.contains('icon-checkmark') ) {
+    e.currentTarget.classList.toggle('selected')
   }
 }
 
-exports.toggleBtn = eventTarget => {
+exports.toggleBtn = e => {
 
-  if( eventTarget.target.parentNode.classList.contains('icon-plus') ) {
-    eventTarget.target.parentNode.classList.toggle('active')
+  if( e.target.parentNode.classList.contains('icon-plus') ) {
+    e.target.parentNode.classList.toggle('active')
   }
 }
 
 // Add new WindowItem
-exports.addItem = (itemTitle, itemUrl, isNew = false) => {
+exports.addItem = (item, isNew = false) => {
 
   // Create a new DOM node
   let itemNode = document.createElement('li')
@@ -36,8 +36,8 @@ exports.addItem = (itemTitle, itemUrl, isNew = false) => {
   // Add inner HTML
   itemNode.innerHTML = `
     <div class="window-item-box">
-      <strong title="${itemTitle}">${itemTitle}</strong>
-      <p><span title="${itemUrl}">${itemUrl}</span></p>
+      <strong title="${item.title}">${item.title}</strong>
+      <p><span title="${item.url}">${item.url}</span></p>
       <div class="icon-box">
         <div class="icon icon-plus">
           <img src="./images/icon_plus.png" alt="">
@@ -66,14 +66,14 @@ exports.addItem = (itemTitle, itemUrl, isNew = false) => {
 
   // Add window item to storage and persist
   if(isNew) {
-    this.storage.push({itemTitle, itemUrl})
+    this.storage.push(item)
     this.save()
   }
 }
 
 // Add window item from storage when app loads
 this.storage.forEach( item => {
-  this.addItem(item.itemTitle, item.itemUrl)
+  this.addItem(item)
 })
 
 ipcRenderer.on('main-window-finish-load', () => {

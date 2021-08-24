@@ -9,9 +9,9 @@ let arrSubWindows = []
 ipcMain.on('new-windowItem', (e, windowUrl) => {
   
   // Get new window and send back to renderer
-  readWindowItem(windowUrl, getWindowInfo => {
-    arrSubWindows.push(getWindowInfo.subWindow)
-    e.sender.send('new-windowItem-success', getWindowInfo.title, getWindowInfo.url)
+  readWindowItem(windowUrl, (windowInstance, windowInfo) => {
+    arrSubWindows.push(windowInstance)
+    e.sender.send('new-windowItem-success', windowInfo)
   })
 })
 
@@ -20,7 +20,7 @@ ipcMain.on('window-items', (e, windowItems) => {
     return
   }
   windowItems.forEach(item => {
-    arrSubWindows.push(readWindowItem(item.itemUrl))
+    arrSubWindows.push(readWindowItem(item.url))
   })
 })
 

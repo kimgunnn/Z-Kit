@@ -59,10 +59,10 @@ windowUrl.addEventListener('keyup', e => {
 })
 
 // Listen for new window from main process
-ipcRenderer.on('new-windowItem-success', (e, newWindowTitle, newWindowUrl) => {
+ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
   
   // Add new windowItem to "windowItems" node
-  windowItems.addItem(newWindowTitle, newWindowUrl, true)
+  windowItems.addItem(windowInfo, true)
 
   // Enable buttons
   toggleModalbuttons()

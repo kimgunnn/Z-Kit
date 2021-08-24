@@ -4,11 +4,8 @@ const {BrowserWindow} = require('electron')
 // Exported readWindowItem function
 module.exports = (url, callback) => {
 
-  // sub BrowserWindow
-  let subWindow
-
   // Create sub window
-  subWindow = new BrowserWindow({
+  const subWindow = new BrowserWindow({
     width: 375,
     height: 695,
     minWidth: 280,
@@ -27,8 +24,9 @@ module.exports = (url, callback) => {
   if(callback) {
 
     subWindow.webContents.on('did-finish-load', e => {
-      let title = subWindow.getTitle()
-      callback( {subWindow, title, url} )
+      const title = subWindow.getTitle()
+      const url = subWindow.webContents.getURL()
+      callback(subWindow, {title, url})
     })
   } else {
     return subWindow
