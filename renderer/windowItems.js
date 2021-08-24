@@ -27,6 +27,13 @@ exports.toggleBtn = e => {
   }
 }
 
+exports.subWindowOpen = e => {
+  const arr = [...windowList.children]
+  const itemId = arr.indexOf(e.currentTarget)
+  const itemUrl = this.storage[itemId].url
+  ipcRenderer.send('selected-item-id', itemId, itemUrl)
+}
+
 // Add new WindowItem
 exports.addItem = (item, isNew = false) => {
 
@@ -62,6 +69,10 @@ exports.addItem = (item, isNew = false) => {
 
   itemNode.addEventListener('click', e => {
     this.toggleBtn(e)
+  })
+
+  itemNode.addEventListener('dblclick', e => {
+    this.subWindowOpen(e)
   })
 
   // Add window item to storage and persist

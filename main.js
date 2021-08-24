@@ -24,6 +24,11 @@ ipcMain.on('window-items', (e, windowItems) => {
   })
 })
 
+ipcMain.on('selected-item-id', (e, windowId, windowUrl) => {
+  arrSubWindows[windowId].show()
+  arrSubWindows[windowId].webContents.loadURL(windowUrl)
+})
+
 function createWindow () {
 
   // Window state keeper
@@ -33,6 +38,7 @@ function createWindow () {
     x: state.x, y: state.y,
     width: 1050, height: 450,
     resizable: false,
+    show: false,
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true
@@ -50,6 +56,7 @@ function createWindow () {
 
   // Send renderer a message when app is active
   mainWindow.webContents.once('did-finish-load', e => {
+    mainWindow.show()
     e.sender.send('main-window-finish-load')
   })
 
