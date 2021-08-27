@@ -30,8 +30,7 @@ exports.toggleBtn = e => {
 exports.subWindowOpen = e => {
   const arr = [...windowList.children]
   const itemId = arr.indexOf(e.currentTarget)
-  const itemUrl = this.storage[itemId].url
-  ipcRenderer.send('selected-item-id', itemId, itemUrl)
+  ipcRenderer.send('selected-item-id', itemId)
 }
 
 // Add new WindowItem
@@ -87,6 +86,6 @@ this.storage.forEach( item => {
   this.addItem(item)
 })
 
-ipcRenderer.on('main-window-finish-load', () => {
+ipcRenderer.on('main-window-ready', () => {
   ipcRenderer.send('window-items', this.storage)
 })

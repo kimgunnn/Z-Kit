@@ -1,10 +1,9 @@
 // Modules
 const {BrowserWindow} = require('electron')
 
-// Exported readWindowItem function
-module.exports = (url, callback) => {
+// Exported createSubWindow function
+module.exports = (_url, callback) => {
 
-  // Create sub window
   const subWindow = new BrowserWindow({
     width: 375,
     height: 695,
@@ -14,19 +13,22 @@ module.exports = (url, callback) => {
   })
 
   // Load WindowItem url
-  subWindow.loadURL(url)
+  subWindow.loadURL(_url)
   
   subWindow.on('close', e => {
     e.preventDefault()
     subWindow.hide()
+    subWindow.webContents.loadURL(_url)
   })
 
   if(callback) {
-
-    subWindow.webContents.on('did-finish-load', e => {
+    subWindow.webContents.on('did-finish-load', () => {
       const title = subWindow.getTitle()
-      const url = subWindow.webContents.getURL()
-      callback(subWindow, {title, url})
+      const url = subWindow.getURL()
+      
+      if(_url === url) {
+        callback(subWindow, {title, url})
+      }
     })
   } else {
     return subWindow

@@ -1,34 +1,19 @@
 // Module
 const {ipcRenderer} = require('electron')
-const windowItems = require('./windowItems')
+const windowItems = require('./function_modules/windowItems')
+const checkFormUrl = require('./function_modules/checkFormUrl')
 
 // Dom nodes
 let modal = document.querySelector('.modal'),
     openModalBtn = document.querySelector('.btn--modal-trigger'),
-    closeModalBtn = document.querySelector('.btn--modal-close'),
-    windowUrl = document.querySelector('.input--url'),
-    addWindowBtn = document.querySelector('.btn--add-window')
-
-// Disable & Enable modal button
-function toggleModalbuttons() {
-
-  // Check state of buttons
-  if(addWindowBtn.disabled == true) {
-    addWindowBtn.disabled = false;
-    closeModalBtn.disabled = false;
-    addWindowBtn.innerText = 'OK'
-  } else {
-    addWindowBtn.disabled = true;
-    closeModalBtn.disabled = true;
-    addWindowBtn.innerText = 'Creating...'
-  }
-}
-
+    closeModalBtn = modal.querySelector('.btn--modal-close'),
+    urlInput = modal.querySelector('.input--url'),
+    addWindowBtn = modal.querySelector('.btn--add-window')
 
 // Open modal
 openModalBtn.addEventListener('click', () => {
   modal.classList.add('modal-open')
-  windowUrl.focus()
+  urlInput.focus()
 })
 
 // Close modal
@@ -37,22 +22,22 @@ closeModalBtn.addEventListener('click', () => {
 })
 
 // Handle new window
-addWindowBtn.addEventListener('click', e => {
+addWindowBtn.addEventListener('click', () => {
 
   // Check a url exists
-  if(windowUrl.value) {
+  if(urlInput.value) {
 
     // Send new window url to main process
-    ipcRenderer.send('new-windowItem', windowUrl.value)
+    ipcRenderer.send('new-windowItem', urlInput.value)
 
     // Disable buttons
-    toggleModalbuttons()
+    checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
   }
 })
 
 // Listen for keyboard submit
-windowUrl.addEventListener('keyup', e => {
-
+urlInput.addEventListener('keyup', e => {
+  
   if(e.key == 'Enter') {
     addWindowBtn.click()
   }
@@ -61,13 +46,21 @@ windowUrl.addEventListener('keyup', e => {
 // Listen for new window from main process
 ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
   
-  // Add new windowItem to "windowItems" node
-  windowItems.addItem(windowInfo, true)
+  if(windowInfo) {
 
-  // Enable buttons
-  toggleModalbuttons()
+    // Add new windowItem to "windowItems" node
+    windowItems.addItem(windowInfo, true)
 
-  // Hide modal and clear value
-  modal.classList.remove('modal-open')
-  windowUrl.value = '';
+    // Enable buttons
+    checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
+
+    // Hide modal and clear value
+    modal.classList.remove('modal-open')
+    urlInput.value = '';
+  } else {
+    alert('Failed to create!')
+
+    checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
+    urlInput.focus()
+  }
 })

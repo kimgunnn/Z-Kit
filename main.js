@@ -1,32 +1,41 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
-const readWindowItem = require('./readWindowItem')
+const createSubWindow = require('./createSubWindow')
 
 let mainWindow
 let arrSubWindows = []
 
 // Listen for new window request
 ipcMain.on('new-windowItem', (e, windowUrl) => {
-  
+
+  for(item of arrSubWindows) {
+    if(item.getURL() === windowUrl) {
+      e.sender.send('new-windowItem-success', false)
+      return
+    }
+  }
+
   // Get new window and send back to renderer
-  readWindowItem(windowUrl, (windowInstance, windowInfo) => {
+  createSubWindow(windowUrl, (windowInstance, windowInfo) => {
+    
+    for(item of arrSubWindows) {
+      if(item.getURL() === windowInfo.url) {
+        return
+      }
+    }
     arrSubWindows.push(windowInstance)
     e.sender.send('new-windowItem-success', windowInfo)
   })
 })
 
 ipcMain.on('window-items', (e, windowItems) => {
-  if(!windowItems.length) {
-    return
-  }
   windowItems.forEach(item => {
-    arrSubWindows.push(readWindowItem(item.url))
+    arrSubWindows.push(createSubWindow(item.url))
   })
 })
 
-ipcMain.on('selected-item-id', (e, windowId, windowUrl) => {
+ipcMain.on('selected-item-id', (e, windowId) => {
   arrSubWindows[windowId].show()
-  arrSubWindows[windowId].webContents.loadURL(windowUrl)
 })
 
 function createWindow () {
@@ -55,17 +64,19 @@ function createWindow () {
   // mainWindow.webContents.openDevTools();
 
   // Send renderer a message when app is active
-  mainWindow.webContents.once('did-finish-load', e => {
+  mainWindow.webContents.on('did-finish-load', e => {
     mainWindow.show()
-    e.sender.send('main-window-finish-load')
+    e.sender.send('main-window-ready')
   })
 
   // Listen for window being closed
   mainWindow.on('closed',  () => {
-    arrSubWindows.forEach(item => {
-      item.destroy()
-    })
-    arrSubWindows = []
+    if(arrSubWindows.length) {
+      arrSubWindows.forEach(item => {
+        item.destroy()
+      })
+      arrSubWindows = []
+    }
     mainWindow = null
   })
 }
