@@ -4,14 +4,14 @@ exports.toggleFormElements = (submitBtn, ...formEl) => {
   // Check state
   if(submitBtn.disabled == false) {
     submitBtn.disabled = true
-    submitBtn.innerText = 'Creating...'
+    submitBtn.firstChild.innerText = 'Creating...'
 
     formEl.forEach(item => {
       item.disabled = true;
     })
   } else {
     submitBtn.disabled = false;
-    submitBtn.innerText = 'OK';
+    submitBtn.firstChild.innerText = 'OK';
 
     formEl.forEach(item => {
       item.disabled = false;
