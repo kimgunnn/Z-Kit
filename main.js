@@ -38,6 +38,11 @@ ipcMain.on('selected-item-id', (e, windowId) => {
   arrSubWindows[windowId].show()
 })
 
+ipcMain.on('remove-item', (e, windowIndex) => {
+  arrSubWindows[windowIndex].destroy()
+  arrSubWindows.splice(windowIndex, 1)
+})
+
 function createWindow () {
 
   // Window state keeper

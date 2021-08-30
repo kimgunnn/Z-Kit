@@ -2,7 +2,8 @@
 const {ipcRenderer} = require('electron')
 
 // DOM nodes
-let windowList = document.querySelector('.window-list')
+let windowListEl = document.querySelector('.window-list')
+let windowItems = windowListEl.children
 
 // Track windowItems in storage
 exports.storage = JSON.parse(localStorage.getItem('window-items')) || []
@@ -13,24 +14,19 @@ exports.save = () => {
 }
 
 // Set item as selected
-exports.select = e => {
-
-  if( e.target.parentNode.classList.contains('icon-checkmark') ) {
-    e.currentTarget.classList.toggle('selected')
-  }
+exports.select = checkBtn => {
+  checkBtn.classList.toggle('on')
 }
 
-exports.toggleBtn = e => {
-
-  if( e.target.parentNode.classList.contains('icon-plus') ) {
-    e.target.parentNode.classList.toggle('active')
-  }
+exports.delete = (deleteBtn, itemIndex) => {
+  ipcRenderer.send('remove-item', itemIndex)
+  this.storage.splice(itemIndex, 1)
+  this.save()
+  windowItems[itemIndex].remove()
 }
 
-exports.subWindowOpen = e => {
-  const arr = [...windowList.children]
-  const itemId = arr.indexOf(e.currentTarget)
-  ipcRenderer.send('selected-item-id', itemId)
+exports.subWindowOpen = itemIndex => {
+  ipcRenderer.send('selected-item-id', itemIndex)
 }
 
 // Add new WindowItem
@@ -61,20 +57,32 @@ exports.addItem = (item, isNew = false) => {
     </div>
   `
 
-  // Append new node to "windowList"
-  windowList.appendChild(itemNode)
+  // Append new node to "windowListEl"
+  windowListEl.appendChild(itemNode)
 
   // Attach click handler to select
   itemNode.addEventListener('click', e => {
-    this.select(e)
-  })
+    const checkBtn = e.target.classList.contains('icon-check') ?
+                     e.target : e.target.parentNode.classList.contains('icon-check') ?
+                     e.target.parentElement : false
+    const deleteBtn = e.target.classList.contains('icon-delete') ?
+                      e.target : e.target.parentNode.classList.contains('icon-delete') ?
+                      e.target.parentElement : false
+    const arrWindowItem = [...windowItems]
+    const selectedItemIndex = arrWindowItem.indexOf(e.currentTarget)
 
-  itemNode.addEventListener('click', e => {
-    this.toggleBtn(e)
+    if(checkBtn) {
+      this.select(checkBtn)
+    } else if(deleteBtn) {
+      this.delete(deleteBtn, selectedItemIndex)
+    }
   })
 
   itemNode.addEventListener('dblclick', e => {
-    this.subWindowOpen(e)
+    const arrWindowItem = [...windowItems]
+    const selectedItemIndex = arrWindowItem.indexOf(e.currentTarget)
+
+    this.subWindowOpen(selectedItemIndex)
   })
 
   // Add window item to storage and persist
