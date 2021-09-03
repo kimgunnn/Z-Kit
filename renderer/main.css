@@ -305,36 +305,30 @@ main {
 }
 
 .window-list > li .window-item-box .btn-toggle {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 28px;
   height: 28px;
-}
-
-.window-list > li .window-item-box .btn-toggle input[type="checkbox"] {
-  width: 100%;
-  height: 100%;
   border: 2px solid var(--color-grey-background);
   border-radius: 50%;
   box-shadow: var(--box-shadow-small);
   transition: box-shadow var(--duration-active);
+  cursor: default;
 }
 
-.window-list > li .window-item-box .btn-toggle input[type="checkbox"] + svg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.window-list > li .window-item-box .btn-toggle svg {
   width: 14px;
   height: 14px;
-  margin-top: -7px;
-  margin-left: -7px;
   color: var(--color-red);
   transition: transform var(--duration-active);
+  pointer-events: none;
 }
 
-.window-list > li .window-item-box .btn-toggle input[type="checkbox"]:checked {
+.window-list > li.active .window-item-box .btn-toggle {
   box-shadow: var(--box-shadow-small-active)
 }
-.window-list > li .window-item-box .btn-toggle input[type="checkbox"]:checked + svg {
+.window-list > li.active .window-item-box .btn-toggle svg {
   color: var(--color-green);
   transform: scale(.9)
 }

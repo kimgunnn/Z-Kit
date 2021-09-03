@@ -5,7 +5,7 @@ const {ipcRenderer} = require('electron')
 let windowListEl = document.querySelector('.window-list')
 let windowItems = windowListEl.children
 
-// Track windowItems in storage
+// Track window items in storage
 exports.storage = JSON.parse(localStorage.getItem('window-items')) || []
 
 // Persist storage
@@ -18,15 +18,15 @@ exports.select = checkBtn => {
   checkBtn.classList.toggle('on')
 }
 
-exports.delete = (deleteBtn, itemIndex) => {
+exports.delete = itemIndex => {
   ipcRenderer.send('remove-item', itemIndex)
   this.storage.splice(itemIndex, 1)
   this.save()
   windowItems[itemIndex].remove()
 }
 
-exports.subWindowOpen = itemIndex => {
-  ipcRenderer.send('selected-item-id', itemIndex)
+exports.openSubWindow = itemIndex => {
+  ipcRenderer.send('open-subWindow', itemIndex)
 }
 
 // Add new WindowItem
@@ -49,10 +49,9 @@ exports.addItem = (item, isNew = false) => {
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
-        <label class="btn-toggle">
-          <input type="checkbox" disabled>
+        <button class="btn-toggle" disabled>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-power"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
-        </label>
+        </button>
       </div>
     </div>
   `
@@ -61,28 +60,23 @@ exports.addItem = (item, isNew = false) => {
   windowListEl.appendChild(itemNode)
 
   // Attach click handler to select
-  itemNode.addEventListener('click', e => {
-    const checkBtn = e.target.classList.contains('icon-check') ?
-                     e.target : e.target.parentNode.classList.contains('icon-check') ?
-                     e.target.parentElement : false
-    const deleteBtn = e.target.classList.contains('icon-delete') ?
-                      e.target : e.target.parentNode.classList.contains('icon-delete') ?
-                      e.target.parentElement : false
-    const arrWindowItem = [...windowItems]
-    const selectedItemIndex = arrWindowItem.indexOf(e.currentTarget)
+  const checkBtn = itemNode.querySelector('.icon-check')
+  const deleteBtn = itemNode.querySelector('.icon-delete')
 
-    if(checkBtn) {
-      this.select(checkBtn)
-    } else if(deleteBtn) {
-      this.delete(deleteBtn, selectedItemIndex)
-    }
+  checkBtn.addEventListener('click', e => {
+    this.select(e.currentTarget)
+  })
+
+  deleteBtn.addEventListener('click', e => {
+    const selectedItemIndex = [...windowItems].indexOf(itemNode)
+
+    this.delete(selectedItemIndex)
   })
 
   itemNode.addEventListener('dblclick', e => {
-    const arrWindowItem = [...windowItems]
-    const selectedItemIndex = arrWindowItem.indexOf(e.currentTarget)
+    const selectedItemIndex = [...windowItems].indexOf(itemNode)
 
-    this.subWindowOpen(selectedItemIndex)
+    this.openSubWindow(selectedItemIndex)
   })
 
   // Add window item to storage and persist
@@ -93,10 +87,34 @@ exports.addItem = (item, isNew = false) => {
 }
 
 // Add window item from storage when app loads
-this.storage.forEach( item => {
+this.storage.forEach(item => {
   this.addItem(item)
 })
 
 ipcRenderer.on('main-window-ready', () => {
   ipcRenderer.send('window-items', this.storage)
+})
+
+ipcRenderer.on('show-subWindow', (e, windowInfo) => {
+  let itemIndex
+
+  for(let item in this.storage) {
+    if( JSON.stringify(this.storage[item]) == JSON.stringify(windowInfo) ) {
+      itemIndex = item
+      break
+    }
+  }
+  windowItems[itemIndex].classList.add('active')
+})
+
+ipcRenderer.on('hide-subWindow', (e, windowInfo) => {
+  let itemIndex
+
+  for(let item in this.storage) {
+    if( JSON.stringify(this.storage[item]) == JSON.stringify(windowInfo) ) {
+      itemIndex = item
+      break
+    }
+  }
+  windowItems[itemIndex].classList.remove('active')
 })
