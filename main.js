@@ -72,7 +72,7 @@ function createMainWindow() {
 
   mainWindow = new BrowserWindow({
     x: state.x, y: state.y,
-    width: 1230, height: 463,
+    width: 1230, height: 473,
     resizable: false,
     show: false,
     webPreferences: {
