@@ -75,7 +75,6 @@ const addSizeBtn = resizingMenuContainer.querySelector('.btn--add-size')
 
 gnbItemResizingBtn.addEventListener('click', e => {
   resizingMenuContainer.classList.toggle('modal-open')
-  widthInput.focus()
 })
 
 if(deviceSelect.value.toLowerCase() == 'desktop') {

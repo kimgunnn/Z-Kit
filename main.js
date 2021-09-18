@@ -41,11 +41,11 @@ ipcMain.on('window-items', (e, windowItems) => {
       const title = item.getTitle()
       const url = item.getURL()
 
-      item.on('show', () => {
+      item.once('show', () => {
         mainWindow.webContents.send('show-subWindow', {title, url})
       })
     
-      item.on('hide', () => {
+      item.once('hide', () => {
         mainWindow.webContents.send('hide-subWindow', {title, url})
       })
     })
@@ -54,7 +54,7 @@ ipcMain.on('window-items', (e, windowItems) => {
 
 ipcMain.on('open-subWindow', (e, windowIndex) => {
   try {
-    arrSubWindows[windowIndex].show()
+    arrSubWindows[windowIndex].showInactive()
   } catch {
     return
   }
@@ -63,6 +63,18 @@ ipcMain.on('open-subWindow', (e, windowIndex) => {
 ipcMain.on('remove-item', (e, windowIndex) => {
   arrSubWindows[windowIndex].destroy()
   arrSubWindows.splice(windowIndex, 1)
+})
+
+ipcMain.on('selected-items', (e, arrIndex, width, height) => {
+
+  for(item of arrIndex) {
+    if(+height) {
+      arrSubWindows[item].setBounds({width: +width, height: +height})
+    } else {
+      arrSubWindows[item].setBounds({width: +width, height: 999999})
+    }
+    arrSubWindows[item].showInactive()
+  }
 })
 
 function createMainWindow() {
@@ -88,7 +100,7 @@ function createMainWindow() {
   state.manage(mainWindow)
 
   // Open DevTools
-  // mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools()
 
   // Send renderer a message when app is active
   mainWindow.webContents.on('did-finish-load', e => {

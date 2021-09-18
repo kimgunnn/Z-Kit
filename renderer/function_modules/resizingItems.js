@@ -1,4 +1,5 @@
 const {ipcRenderer} = require('electron')
+const windowItems = require('./windowItems')
 
 exports.storage = JSON.parse(localStorage.getItem('resizing-items')) || []
 
@@ -43,21 +44,33 @@ exports.addItem = (selectedDevice, width, height, isNew = false) => {
   const itemNode = document.createElement('li')
 
   itemNode.innerHTML = `
-    <button class="btn btn--sm">
+    <button class="btn btn--sm btn--resize">
       <span>${width}${height ? ' x ' + height : ''}</span>
     </button>
-    <button class="btn btn--sm icon btn-delete">
+    <button class="btn btn--sm icon btn--delete">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
     </button>
   `
 
   resizingListContainer.appendChild(itemNode)
 
-  const deleteBtn = itemNode.querySelector('.btn-delete')
+  const deleteBtn = itemNode.querySelector('.btn--delete')
+  const resizeBtn = itemNode.querySelector('.btn--resize')
 
   deleteBtn.addEventListener('click', () => {
     const resizingList = [...resizingListContainer.children]
     this.delete(resizingList, itemNode, width, height)
+  })
+
+  resizeBtn.addEventListener('click', e => {
+    const arrWindowItems = [...windowItems.windowItemsColl]
+    const arrSelectedItems = []
+
+    for(itemIndex in arrWindowItems) {
+      arrWindowItems[itemIndex].classList.contains('selected') ? arrSelectedItems.push(itemIndex) : false
+    }
+
+    ipcRenderer.send('selected-items', arrSelectedItems, width, height)
   })
 
   if(isNew) {

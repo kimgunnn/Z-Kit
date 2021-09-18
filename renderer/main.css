@@ -377,11 +377,11 @@ body, input, select, textarea, table, button {
   border-radius: 20px;
 }
 
-.submenu-container__list .resizing-list > li > .btn-delete {
+.submenu-container__list .resizing-list > li > .btn--delete {
   flex: 0 0 auto
 }
 
-.submenu-container__list .resizing-list > li > .btn-delete:hover svg {
+.submenu-container__list .resizing-list > li > .btn--delete:hover svg {
   color: var(--color-red);
 }
 
@@ -461,16 +461,16 @@ main {
   column-gap: 10px;
 }
 
-.window-list > li .window-item-box .icon-check.on {
+.window-list > li.selected .window-item-box .icon-check {
   box-shadow: var(--box-shadow-small-active)
 }
 
-.window-list > li .window-item-box .icon-check.on svg {
+.window-list > li.selected .window-item-box .icon-check svg {
   transform: scale(.9);
 }
 
 .window-list > li .window-item-box .icon-check:hover svg,
-.window-list > li .window-item-box .icon-check.on svg {
+.window-list > li.selected .window-item-box .icon-check svg {
   color: var(--color-green);
 }
 

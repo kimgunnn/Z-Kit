@@ -3,7 +3,7 @@ const {ipcRenderer} = require('electron')
 
 // DOM nodes
 let windowListEl = document.querySelector('.window-list')
-let windowItems = windowListEl.children
+exports.windowItemsColl = windowListEl.children
 
 // Track window items in storage
 exports.storage = JSON.parse(localStorage.getItem('window-items')) || []
@@ -13,16 +13,11 @@ exports.save = () => {
   localStorage.setItem('window-items', JSON.stringify(this.storage))
 }
 
-// Set item as selected
-exports.select = checkBtn => {
-  checkBtn.classList.toggle('on')
-}
-
 exports.delete = itemIndex => {
   ipcRenderer.send('remove-item', itemIndex)
   this.storage.splice(itemIndex, 1)
   this.save()
-  windowItems[itemIndex].remove()
+  this.windowItemsColl[itemIndex].remove()
 }
 
 exports.openSubWindow = itemIndex => {
@@ -64,17 +59,17 @@ exports.addItem = (item, isNew = false) => {
   const deleteBtn = itemNode.querySelector('.icon-delete')
 
   checkBtn.addEventListener('click', e => {
-    this.select(e.currentTarget)
+    itemNode.classList.toggle('selected')
   })
 
   deleteBtn.addEventListener('click', e => {
-    const selectedItemIndex = [...windowItems].indexOf(itemNode)
+    const selectedItemIndex = [...this.windowItemsColl].indexOf(itemNode)
 
     this.delete(selectedItemIndex)
   })
 
   itemNode.addEventListener('dblclick', e => {
-    const selectedItemIndex = [...windowItems].indexOf(itemNode)
+    const selectedItemIndex = [...this.windowItemsColl].indexOf(itemNode)
 
     this.openSubWindow(selectedItemIndex)
   })
@@ -104,7 +99,7 @@ ipcRenderer.on('show-subWindow', (e, windowInfo) => {
       break
     }
   }
-  windowItems[itemIndex].classList.add('active')
+  this.windowItemsColl[itemIndex].classList.add('active')
 })
 
 ipcRenderer.on('hide-subWindow', (e, windowInfo) => {
@@ -116,5 +111,5 @@ ipcRenderer.on('hide-subWindow', (e, windowInfo) => {
       break
     }
   }
-  windowItems[itemIndex].classList.remove('active')
+  this.windowItemsColl[itemIndex].classList.remove('active')
 })
