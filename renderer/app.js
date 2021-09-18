@@ -1,14 +1,15 @@
 // Module
 const {ipcRenderer} = require('electron')
 const windowItems = require('./function_modules/windowItems')
+const resizingItems = require('./function_modules/resizingItems')
 const checkFormUrl = require('./function_modules/checkFormUrl')
 
 // Dom nodes
-let modal = document.querySelector('.modal'),
-    openModalBtn = document.querySelector('.btn--modal-trigger'),
-    closeModalBtn = modal.querySelector('.btn--modal-close'),
-    urlInput = modal.querySelector('.input--url'),
-    addWindowBtn = modal.querySelector('.btn--add-window')
+const modal = document.querySelector('.modal')
+const openModalBtn = document.querySelector('.btn--modal-trigger')
+const closeModalBtn = modal.querySelector('.btn--modal-close')
+const urlInput = modal.querySelector('.input--url')
+const addWindowBtn = modal.querySelector('.btn--add-window')
 
 // Open modal
 openModalBtn.addEventListener('click', () => {
@@ -62,5 +63,54 @@ ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
 
     checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
     urlInput.focus()
+  }
+})
+
+const gnbItemResizingBtn = document.querySelector('.gnb__item--resizing > .btn')
+const resizingMenuContainer = document.querySelector('.submenu-container--resizing')
+const deviceSelect = resizingMenuContainer.querySelector('.select--device')
+const widthInput = resizingMenuContainer.querySelector('.input--width')
+const heightInput = resizingMenuContainer.querySelector('.input--height')
+const addSizeBtn = resizingMenuContainer.querySelector('.btn--add-size')
+
+gnbItemResizingBtn.addEventListener('click', e => {
+  resizingMenuContainer.classList.toggle('modal-open')
+  widthInput.focus()
+})
+
+if(deviceSelect.value.toLowerCase() == 'desktop') {
+  heightInput.type = 'text'
+  heightInput.value = 'Full Height'
+  heightInput.disabled = true
+}
+
+deviceSelect.addEventListener('change', e => {
+  widthInput.focus()
+
+  if(e.target.value.toLowerCase() == 'desktop') {
+    heightInput.type = 'text'
+    heightInput.value = 'Full Height'
+    heightInput.disabled = true
+  } else {
+    heightInput.type = 'number'
+    heightInput.value = ''
+    heightInput.disabled = false
+  }
+})
+
+addSizeBtn.addEventListener('click', () => {
+  const device = deviceSelect.value.toLowerCase()
+  
+  if(widthInput.value && heightInput.value) {
+
+    if(device == 'desktop') {
+      resizingItems.addItem(device, widthInput.value, '', true)
+      widthInput.value = ''
+    } else {
+      resizingItems.addItem(device, widthInput.value, heightInput.value, true)
+      widthInput.value = ''
+      heightInput.value = ''
+    }
+    widthInput.focus()
   }
 })

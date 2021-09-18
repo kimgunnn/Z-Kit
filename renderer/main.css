@@ -289,7 +289,7 @@ body, input, select, textarea, table, button {
 
 /* Submenu - Resizing */
 
-.submenu-container {
+.submenu-container--resizing {
   position: absolute;
   top: 80px;
   z-index: 110;
@@ -303,7 +303,7 @@ body, input, select, textarea, table, button {
   display: none
 }
 
-.btn.on + .submenu-container {
+.submenu-container--resizing.modal-open {
   display: block
 }
 
@@ -317,7 +317,7 @@ body, input, select, textarea, table, button {
   background-color: var(--color-grey-background);
 }
 
-.submenu-container__input-area .select {
+.submenu-container__input-area .select--device {
   width: 110px;
   margin-right: 5px;
 }
@@ -337,14 +337,13 @@ body, input, select, textarea, table, button {
   gap: 0 30px;
   margin-top: 4px;
   padding: 0 30px 30px;
-  text-align: center;
 }
 
 .submenu-container__list > li {
   width: 100%
 }
 
-.submenu-container__list > li [data-device] {
+.submenu-container__list > li > strong[data-device] {
   width: 34px;
   height: 34px;
   margin: 0 auto;
@@ -353,7 +352,7 @@ body, input, select, textarea, table, button {
   pointer-events: none;
 }
 
-.submenu-container__list > li [data-device] svg {
+.submenu-container__list > li > strong[data-device] svg {
   width: 17px;
   height: 17px;
 }
@@ -363,6 +362,8 @@ body, input, select, textarea, table, button {
 }
 
 .submenu-container__list .resizing-list > li {
+  display: flex;
+  column-gap: 8px;
   width: 100%;
 }
 
@@ -371,9 +372,17 @@ body, input, select, textarea, table, button {
 }
 
 .submenu-container__list .resizing-list > li > .btn {
-  width: 100%;
+  flex: 1 1 100%;
   border: none;
   border-radius: 20px;
+}
+
+.submenu-container__list .resizing-list > li > .btn-delete {
+  flex: 0 0 auto
+}
+
+.submenu-container__list .resizing-list > li > .btn-delete:hover svg {
+  color: var(--color-red);
 }
 
 /* 
@@ -506,7 +515,7 @@ main {
   display: none;
 }
 
-.modal-open {
+.modal.modal-open {
   display: flex;
 }
 
