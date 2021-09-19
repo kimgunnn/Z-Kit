@@ -6,20 +6,20 @@ const checkFormUrl = require('./function_modules/checkFormUrl')
 
 // Dom nodes
 const modal = document.querySelector('.modal')
-const openModalBtn = document.querySelector('.btn--modal-trigger')
-const closeModalBtn = modal.querySelector('.btn--modal-close')
+const openModalBtn = document.querySelector('.btn--trigger-modal')
+const closeModalBtn = modal.querySelector('.btn--close-modal')
 const urlInput = modal.querySelector('.input--url')
 const addWindowBtn = modal.querySelector('.btn--add-window')
 
 // Open modal
 openModalBtn.addEventListener('click', () => {
-  modal.classList.add('modal-open')
+  modal.classList.add('open-modal')
   urlInput.focus()
 })
 
 // Close modal
 closeModalBtn.addEventListener('click', () => {
-    modal.classList.remove('modal-open')
+    modal.classList.remove('open-modal')
 })
 
 // Handle new window
@@ -56,7 +56,7 @@ ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
     checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
 
     // Hide modal and clear value
-    modal.classList.remove('modal-open')
+    modal.classList.remove('open-modal')
     urlInput.value = '';
   } else {
     alert('Failed to create!')
@@ -74,7 +74,7 @@ const heightInput = resizingMenuContainer.querySelector('.input--height')
 const addSizeBtn = resizingMenuContainer.querySelector('.btn--add-size')
 
 gnbItemResizingBtn.addEventListener('click', e => {
-  resizingMenuContainer.classList.toggle('modal-open')
+  resizingMenuContainer.classList.toggle('open')
 })
 
 if(deviceSelect.value.toLowerCase() == 'desktop') {

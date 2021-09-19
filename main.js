@@ -149,11 +149,11 @@ function createSubWindow(_url, callback, isInitial = false) {
 
       callback(subWindow, {title, url})
   
-      subWindow.on('show', () => {
+      subWindow.once('show', () => {
         mainWindow.webContents.send('show-subWindow', {title, url})
       })
     
-      subWindow.on('hide', () => {
+      subWindow.once('hide', () => {
         mainWindow.webContents.send('hide-subWindow', {title, url})
       })
     })

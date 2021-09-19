@@ -158,7 +158,23 @@ body, input, select, textarea, table, button {
   cursor: not-allowed;
 }
 
-.btn.icon {
+.btn--sm {
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 2px solid var(--color-grey-background);
+  box-shadow: var(--box-shadow-small);
+  font-size: var(--font-small);
+}
+
+.btn--sm:active {
+  box-shadow: var(--box-shadow-small-active);
+}
+
+.btn--sm:active span {
+  font-size: var(--font-small-active);
+}
+
+.btn--icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -168,39 +184,23 @@ body, input, select, textarea, table, button {
   border-radius: 50%;
 }
 
-.btn.icon svg {
+.btn--icon svg {
   width: 18.5px;
   height: 18.5px;
   color: var(--color-grey);
   transition: transform var(--duration-active);
 }
 
-.btn.icon:active svg {
+.btn--icon:active svg {
   transform: scale(.9);
 }
 
-.btn--sm {
-  padding: 4px 8px;
-  border-radius: 8px;
-  border: 2px solid var(--color-grey-background);
-  box-shadow: var(--box-shadow-small);
-  font-size: var(--font-small);
-}
-
-.btn--sm.icon {
+.btn--sm-icon {
   width: 28px;
   height: 28px;
 }
 
-.btn--sm:active {
-  box-shadow: var(--box-shadow-small-active)
-}
-
-.btn--sm:active span {
-  font-size: var(--font-small-active);
-}
-
-.btn--sm.icon svg {
+.btn--sm-icon svg {
   width: 14px;
   height: 14px;
 }
@@ -294,7 +294,7 @@ body, input, select, textarea, table, button {
   top: 80px;
   z-index: 110;
   overflow-y: auto;
-  height: 252px;
+  height: 260px;
   margin-left: -200px;
   border-radius: 14px;
   box-sizing: border-box;
@@ -303,7 +303,7 @@ body, input, select, textarea, table, button {
   display: none
 }
 
-.submenu-container--resizing.modal-open {
+.submenu-container--resizing.open {
   display: block
 }
 
@@ -371,14 +371,15 @@ body, input, select, textarea, table, button {
   margin-top: 10px;
 }
 
-.submenu-container__list .resizing-list > li > .btn {
+.submenu-container__list .resizing-list > li > .btn--sm {
   flex: 1 1 100%;
   border: none;
   border-radius: 20px;
 }
 
 .submenu-container__list .resizing-list > li > .btn--delete {
-  flex: 0 0 auto
+  flex: 0 0 auto;
+  border-radius: 50%;
 }
 
 .submenu-container__list .resizing-list > li > .btn--delete:hover svg {
@@ -399,21 +400,21 @@ main {
 }
 
 .window-list-container {
-  padding: var(--gap-row-large) var(--gap-column-large);
+  padding: var(--gap-row-large) var(--gap-column-large)
 }
 
 .window-list {
   display: flex;
   flex-wrap: wrap;
-  row-gap: var(--gap-row-large);
-  column-gap: var(--gap-column-large);
+  gap: var(--gap-row-large) var(--gap-column-large);
 }
 
 .window-list:empty::after {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: 24px;
+  transform: translate(-50%, -50%);
   color: var(--color-grey);
   content: 'No windows were created.';
 }
@@ -461,37 +462,38 @@ main {
   column-gap: 10px;
 }
 
-.window-list > li.selected .window-item-box .icon-check {
+.window-list > li.selected .window-item-box .btn--check {
   box-shadow: var(--box-shadow-small-active)
 }
 
-.window-list > li.selected .window-item-box .icon-check svg {
+.window-list > li.selected .window-item-box .btn--check svg {
   transform: scale(.9);
 }
 
-.window-list > li .window-item-box .icon-check:hover svg,
-.window-list > li.selected .window-item-box .icon-check svg {
+.window-list > li .window-item-box .btn--check:hover svg,
+.window-list > li.selected .window-item-box .btn--check svg {
   color: var(--color-green);
 }
 
-.window-list > li .window-item-box .icon-delete:hover svg {
+.window-list > li .window-item-box .btn--delete:hover svg {
   color: var(--color-red)
 }
 
-.window-list > li .window-item-box .btn-toggle {
+.window-list > li .window-item-box .btn--toggle {
   transition: box-shadow var(--duration-active);
   cursor: default;
 }
 
-.window-list > li .window-item-box .btn-toggle svg {
+.window-list > li .window-item-box .btn--toggle svg {
   color: var(--color-red);
   pointer-events: none;
 }
 
-.window-list > li.active .window-item-box .btn-toggle {
+.window-list > li.active .window-item-box .btn--toggle {
   box-shadow: var(--box-shadow-small-active)
 }
-.window-list > li.active .window-item-box .btn-toggle svg {
+
+.window-list > li.active .window-item-box .btn--toggle svg {
   color: var(--color-green);
   transform: scale(.9)
 }
@@ -515,7 +517,7 @@ main {
   display: none;
 }
 
-.modal.modal-open {
+.modal.open-modal {
   display: flex;
 }
 
@@ -556,15 +558,6 @@ main {
 
 .modal-content .form-group--row .btn {
   flex: 1 1 50%;
-  transition: box-shadow var(--duration-active);
-}
-
-.modal-content .form-group--row .btn span {
-  transition: font-size var(--duration-active);
-}
-
-.modal-content .form-group--row .btn:active span {
-  font-size: 13.5px;
 }
 
 .modal-content .form-group--row .btn:disabled span {
