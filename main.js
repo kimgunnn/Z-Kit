@@ -37,15 +37,15 @@ ipcMain.on('window-items', (e, windowItems) => {
   }
 
   for(let item of arrSubWindows) {
-    item.webContents.on('did-finish-load', () => {
+    item.webContents.once('did-finish-load', () => {
       const title = item.getTitle()
       const url = item.getURL()
 
-      item.once('show', () => {
+      item.on('show', () => {
         mainWindow.webContents.send('show-subWindow', {title, url})
       })
     
-      item.once('hide', () => {
+      item.on('hide', () => {
         mainWindow.webContents.send('hide-subWindow', {title, url})
       })
     })
@@ -71,7 +71,7 @@ ipcMain.on('selected-items', (e, arrIndex, width, height) => {
     if(+height) {
       arrSubWindows[item].setBounds({width: +width, height: +height})
     } else {
-      arrSubWindows[item].setBounds({width: +width, height: 999999})
+      arrSubWindows[item].setBounds({width: +width})
     }
     arrSubWindows[item].showInactive()
   }
@@ -149,11 +149,11 @@ function createSubWindow(_url, callback, isInitial = false) {
 
       callback(subWindow, {title, url})
   
-      subWindow.once('show', () => {
+      subWindow.on('show', () => {
         mainWindow.webContents.send('show-subWindow', {title, url})
       })
     
-      subWindow.once('hide', () => {
+      subWindow.on('hide', () => {
         mainWindow.webContents.send('hide-subWindow', {title, url})
       })
     })
