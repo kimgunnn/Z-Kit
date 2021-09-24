@@ -10,6 +10,7 @@ const openModalBtn = document.querySelector('.btn--trigger-modal')
 const closeModalBtn = modal.querySelector('.btn--close-modal')
 const urlInput = modal.querySelector('.input--url')
 const addWindowBtn = modal.querySelector('.btn--add-window')
+const loaderContainer = document.querySelector('.loader')
 
 // Open modal
 openModalBtn.addEventListener('click', () => {
@@ -33,6 +34,8 @@ addWindowBtn.addEventListener('click', () => {
 
     // Disable buttons
     checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
+
+    loaderContainer.style.display = 'flex'
   }
 })
 
@@ -64,6 +67,8 @@ ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
     checkFormUrl.toggleFormElements(addWindowBtn, urlInput, closeModalBtn)
     urlInput.focus()
   }
+
+  loaderContainer.style.display = 'none'
 })
 
 const gnbItemResizingBtn = document.querySelector('.gnb__item--resizing > .btn')
