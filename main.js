@@ -1,7 +1,7 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
 
-let mainWindow
+let mainWindow, scrollSyncWindow
 let arrSubWindows = []
 
 // Listen for new window item request
@@ -77,6 +77,37 @@ ipcMain.on('selected-items', (e, arrIndex, width, height) => {
   }
 })
 
+ipcMain.on('scroll-sync', (e, arrIndex) => {
+  scrollSyncWindow.show()
+  
+  for(let item of arrIndex) {
+    arrSubWindows[item].showInactive()
+  }
+  ipcMain.on('wheel-up', (e, wheelDelta) => {
+    
+    for(let item of arrIndex) {   
+      arrSubWindows[item].webContents.executeJavaScript(`
+
+        if(window.pageYOffset < document.body.offsetHeight) {
+          window.scrollTo(0, window.pageYOffset+${+wheelDelta})
+        }
+      `)
+    }
+  })
+
+  ipcMain.on('wheel-down', (e, wheelDelta) => {
+    
+    for(let item of arrIndex) {
+      arrSubWindows[item].webContents.executeJavaScript(`
+
+        if(window.pageYOffset > 0) {
+          window.scrollTo(0, window.pageYOffset-${-wheelDelta})
+        }
+      `)
+    }
+  })
+})
+
 function createMainWindow() {
 
   // Window state keeper
@@ -121,6 +152,8 @@ function createMainWindow() {
       arrSubWindows = []
     }
     mainWindow = null
+    scrollSyncWindow.destroy()
+    scrollSyncWindow = null
   })
 }
 
@@ -162,8 +195,42 @@ function createSubWindow(_url, callback, isInitial = false) {
   }
 }
 
+function createScrollSyncWindow() {
+
+  scrollSyncWindow = new BrowserWindow({
+    width: 200, height: 228,
+    resizable: false,
+    show: false,
+    alwaysOnTop: true,
+    webPreferences: {
+      contextIsolation: false,
+      nodeIntegration: true
+    }
+  })
+
+  scrollSyncWindow.loadFile('renderer/scrollsync.html')
+
+  scrollSyncWindow.on('show', () => {
+    mainWindow.hide()
+  })
+  
+  scrollSyncWindow.on('hide', () => {
+    mainWindow.show()
+  })
+
+  scrollSyncWindow.on('close',  e => {
+    e.preventDefault()
+    scrollSyncWindow.hide()
+    ipcMain.removeAllListeners('wheel-up')
+    ipcMain.removeAllListeners('wheel-down')
+  })
+}
+
 // Create a new BrowserWindow when `app` is ready
-app.on('ready', createMainWindow)
+app.on('ready', () => {
+  createMainWindow()
+  createScrollSyncWindow()
+})
 
 // Quit when all windows are closed - (Not macOS - Darwin)
 app.on('window-all-closed', () => {
@@ -172,5 +239,9 @@ app.on('window-all-closed', () => {
 
 // When app icon is clicked and app is running, (macOS) recreate the BrowserWindow
 app.on('activate', () => {
-  if (mainWindow === null) createMainWindow()
+
+  if(mainWindow === null) {
+    createMainWindow()
+    createScrollSyncWindow()
+  }
 })

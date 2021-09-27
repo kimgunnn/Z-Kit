@@ -118,3 +118,15 @@ addSizeBtn.addEventListener('click', () => {
     widthInput.focus()
   }
 })
+
+const scrollSyncBtn = document.querySelector('.gnb__item--scroll-sync')
+
+scrollSyncBtn.addEventListener('click', () => {
+  const arrWindowItems = [...windowItems.windowItemsColl]
+  const arrSelectedItems = []
+
+  for(itemIndex in arrWindowItems) {
+    arrWindowItems[itemIndex].classList.contains('selected') ? arrSelectedItems.push(itemIndex) : false
+  }
+  ipcRenderer.send('scroll-sync', arrSelectedItems)
+})
