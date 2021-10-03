@@ -14,7 +14,7 @@ exports.save = () => {
 }
 
 exports.delete = itemIndex => {
-  ipcRenderer.send('remove-item', itemIndex)
+  ipcRenderer.send('remove-subWindow', itemIndex)
   this.storage.splice(itemIndex, 1)
   this.save()
   this.windowItemsColl[itemIndex].remove()

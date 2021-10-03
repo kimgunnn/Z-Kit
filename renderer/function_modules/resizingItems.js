@@ -40,7 +40,7 @@ exports.delete = (resizingList, item, width, height) => {
 }
 
 exports.addItem = (selectedDevice, width, height, isNew = false) => {
-  const resizingListContainer = document.querySelector(`.resizing-list[data-container-${selectedDevice}]`)
+  const resizingListContainer = document.querySelector(`.size-list[data-container-${selectedDevice}]`)
   const itemNode = document.createElement('li')
 
   itemNode.innerHTML = `
@@ -70,7 +70,7 @@ exports.addItem = (selectedDevice, width, height, isNew = false) => {
       arrWindowItems[itemIndex].classList.contains('selected') ? arrSelectedItems.push(itemIndex) : false
     }
 
-    ipcRenderer.send('selected-items', arrSelectedItems, width, height)
+    ipcRenderer.send('selected-subWindow', arrSelectedItems, width, height)
   })
 
   if(isNew) {

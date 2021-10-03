@@ -15,12 +15,14 @@ const loaderContainer = document.querySelector('.loader')
 // Open modal
 openModalBtn.addEventListener('click', () => {
   modal.classList.add('open-modal')
+  document.body.style.overflow = 'hidden'
   urlInput.focus()
 })
 
 // Close modal
 closeModalBtn.addEventListener('click', () => {
     modal.classList.remove('open-modal')
+    document.body.style.overflow = 'visible'
 })
 
 // Handle new window
@@ -69,6 +71,7 @@ ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
   }
 
   loaderContainer.style.display = 'none'
+  document.body.style.overflow = 'visible'
 })
 
 const gnbItemResizingBtn = document.querySelector('.gnb__item--resizing > .btn')

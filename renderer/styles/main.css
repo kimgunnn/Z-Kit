@@ -60,24 +60,24 @@ img {
   --color-grey-background: #ececec;
 
   /* Box Shadow */
-  --box-shadow-large: -7px -7px 17px rgba(255,255,255,0.6),
-                      7px 7px 17px rgba(70,70,70,0.16);
-  --box-shadow-medium: -4px -4px 11px rgba(255,255,255,0.6),
-                        4px 4px 11px rgba(70,70,70,0.16);
-  --box-shadow-small: -2px -2px 5px rgba(255,255,255,0.6),
-                      2px 2px 5px rgba(70,70,70,0.16);
+  --box-shadow-large: -7px -7px 15px rgba(255,255,255,0.8),
+                      7px 7px 23px rgba(0,0,0,0.16);
+  --box-shadow-medium: -4px -4px 10px rgba(255,255,255,0.8),
+                        4px 4px 15px rgba(0,0,0,0.16);
+  --box-shadow-small: -2px -2px 5px rgba(255,255,255,0.8),
+                      2px 2px 7px rgba(0,0,0,0.16);
 
-  --box-shadow-large-active: -7px -7px 17px rgba(255,255,255,0.6),
-                              7px 7px 17px rgba(70,70,70,0.16),
-                              inset -7px -7px 17px rgba(255,255,255,0.6),
-                              inset 7px 7px 17px rgba(70,70,70,0.16);
-  --box-shadow-medium-active: -4px -4px 11px rgba(255,255,255,0.6),
-                              4px 4px 11px rgba(70,70,70,0.16),
-                              inset -4px -4px 11px rgba(255,255,255,0.6),
-                              inset 4px 4px 11px rgba(70,70,70,0.16);
-  --box-shadow-small-active: -2px -2px 5px rgba(255,255,255,0.6),
-                              2px 2px 5px rgba(70,70,70,0.16),
-                              inset -2px -2px 5px rgba(255,255,255,0.6),
+  --box-shadow-large-active: -7px -7px 15px rgba(255,255,255,0.8),
+                              7px 7px 23px rgba(0,0,0,0.16),
+                              inset -5px -5px 15px rgba(255,255,255,0.8),
+                              inset 6px 6px 17px rgba(70,70,70,0.16);
+  --box-shadow-medium-active: -4px -4px 10px rgba(255,255,255,0.8),
+                              4px 4px 15px rgba(0,0,0,0.16),
+                              inset -3px -3px 10px rgba(255,255,255,0.8),
+                              inset 3px 3px 11px rgba(70,70,70,0.16);
+  --box-shadow-small-active: -2px -2px 5px rgba(255,255,255,0.8),
+                              2px 2px 7px rgba(70,70,70,0.16),
+                              inset -2px -2px 5px rgba(255,255,255,0.8),
                               inset 2px 2px 5px rgba(70,70,70,0.16);
 
   /* Transition */
@@ -274,6 +274,10 @@ body, input, select, textarea, table, button {
   min-width: 140px;
 }
 
+.gnb__item > .btn:active span {
+  font-size: var(--font-medium);
+}
+
 .gnb__item > .btn:disabled span {
   pointer-events: none
 }
@@ -281,10 +285,6 @@ body, input, select, textarea, table, button {
 .gnb__item > .btn svg {
   margin-right: 2px;
   vertical-align: middle;
-}
-
-.gnb__item > .btn:active svg {
-  transform: scale(.96);
 }
 
 /* Submenu - Resizing */
@@ -307,7 +307,7 @@ body, input, select, textarea, table, button {
   display: block
 }
 
-.submenu-container__input-area {
+.submenu-container--resizing__input-area {
   position: sticky;
   top: 0;
   display: flex;
@@ -317,21 +317,21 @@ body, input, select, textarea, table, button {
   background-color: var(--color-grey-background);
 }
 
-.submenu-container__input-area .select--device {
+.submenu-container--resizing__input-area .select--device {
   width: 110px;
   margin-right: 5px;
 }
 
-.submenu-container__input-area .input {
+.submenu-container--resizing__input-area .input {
   text-align: center;
 }
 
-.submenu-container__input-area .btn--plus {
+.submenu-container--resizing__input-area .btn--plus {
   margin-left: 5px;
   border: none;
 }
 
-.submenu-container__list {
+.submenu-container--resizing__list {
   display: flex;
   justify-content: space-between;
   gap: 0 30px;
@@ -339,11 +339,11 @@ body, input, select, textarea, table, button {
   padding: 0 30px 30px;
 }
 
-.submenu-container__list > li {
+.submenu-container--resizing__list > li {
   width: 100%
 }
 
-.submenu-container__list > li > strong[data-device] {
+.submenu-container--resizing__list > li > strong[data-device] {
   width: 34px;
   height: 34px;
   margin: 0 auto;
@@ -352,37 +352,37 @@ body, input, select, textarea, table, button {
   pointer-events: none;
 }
 
-.submenu-container__list > li > strong[data-device] svg {
+.submenu-container--resizing__list > li > strong[data-device] svg {
   width: 17px;
   height: 17px;
 }
 
-.submenu-container__list .resizing-list {
+.submenu-container--resizing__list .size-list {
   margin-top: 12px;
 }
 
-.submenu-container__list .resizing-list > li {
+.submenu-container--resizing__list .size-list > li {
   display: flex;
   column-gap: 8px;
   width: 100%;
 }
 
-.submenu-container__list .resizing-list > li + li {
+.submenu-container--resizing__list .size-list > li + li {
   margin-top: 10px;
 }
 
-.submenu-container__list .resizing-list > li > .btn--sm {
+.submenu-container--resizing__list .size-list > li > .btn--sm {
   flex: 1 1 100%;
   border: none;
   border-radius: 20px;
 }
 
-.submenu-container__list .resizing-list > li > .btn--delete {
+.submenu-container--resizing__list .size-list > li > .btn--delete {
   flex: 0 0 auto;
   border-radius: 50%;
 }
 
-.submenu-container__list .resizing-list > li > .btn--delete:hover svg {
+.submenu-container--resizing__list .size-list > li > .btn--delete:hover svg {
   color: var(--color-red);
 }
 

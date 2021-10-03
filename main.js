@@ -54,18 +54,18 @@ ipcMain.on('window-items', (e, windowItems) => {
 
 ipcMain.on('open-subWindow', (e, windowIndex) => {
   try {
-    arrSubWindows[windowIndex].showInactive()
+    arrSubWindows[windowIndex].show()
   } catch {
     return
   }
 })
 
-ipcMain.on('remove-item', (e, windowIndex) => {
+ipcMain.on('remove-subWindow', (e, windowIndex) => {
   arrSubWindows[windowIndex].destroy()
   arrSubWindows.splice(windowIndex, 1)
 })
 
-ipcMain.on('selected-items', (e, arrIndex, width, height) => {
+ipcMain.on('selected-subWindow', (e, arrIndex, width, height) => {
 
   for(item of arrIndex) {
     if(+height) {
@@ -73,16 +73,17 @@ ipcMain.on('selected-items', (e, arrIndex, width, height) => {
     } else {
       arrSubWindows[item].setBounds({width: +width})
     }
-    arrSubWindows[item].showInactive()
+    arrSubWindows[item].show()
   }
 })
 
 ipcMain.on('scroll-sync', (e, arrIndex) => {
+
+  for(let item of arrIndex) {
+    arrSubWindows[item].show()
+  }
   scrollSyncWindow.show()
   
-  for(let item of arrIndex) {
-    arrSubWindows[item].showInactive()
-  }
   ipcMain.on('wheel-up', (e, wheelDelta) => {
     
     for(let item of arrIndex) {   
@@ -115,7 +116,7 @@ function createMainWindow() {
 
   mainWindow = new BrowserWindow({
     x: state.x, y: state.y,
-    width: 1230, height: 473,
+    width: 1050, height: 473,
     resizable: false,
     show: false,
     webPreferences: {
