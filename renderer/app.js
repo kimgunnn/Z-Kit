@@ -2,6 +2,7 @@
 const {ipcRenderer} = require('electron')
 const windowItems = require('./function_modules/windowItems')
 const resizingItems = require('./function_modules/resizingItems')
+const bookmarkletItems = require('./function_modules/bookmarkletItems')
 const checkFormUrl = require('./function_modules/checkFormUrl')
 
 // Dom nodes
@@ -74,15 +75,18 @@ ipcRenderer.on('new-windowItem-success', (e, windowInfo) => {
   document.body.style.overflow = 'visible'
 })
 
-const gnbItemResizingBtn = document.querySelector('.gnb__item--resizing > .btn')
-const resizingMenuContainer = document.querySelector('.submenu-container--resizing')
-const deviceSelect = resizingMenuContainer.querySelector('.select--device')
-const widthInput = resizingMenuContainer.querySelector('.input--width')
-const heightInput = resizingMenuContainer.querySelector('.input--height')
-const addSizeBtn = resizingMenuContainer.querySelector('.btn--add-size')
+const arrGnbItems = document.querySelectorAll('.btn[data-gnb-btn]')
+const deviceSelect = document.querySelector('.select--device')
+const widthInput = document.querySelector('.input--width')
+const heightInput = document.querySelector('.input--height')
+const addSizeBtn = document.querySelector('.btn--add-size')
 
-gnbItemResizingBtn.addEventListener('click', e => {
-  resizingMenuContainer.classList.toggle('open')
+arrGnbItems.forEach(item => {
+
+  item.addEventListener('click', e => {
+    const itemKeyValue = e.currentTarget.dataset.gnbBtn
+    item.nextElementSibling.classList.toggle('open')
+  })
 })
 
 if(deviceSelect.value.toLowerCase() == 'desktop') {
@@ -132,4 +136,16 @@ scrollSyncBtn.addEventListener('click', () => {
     arrWindowItems[itemIndex].classList.contains('selected') ? arrSelectedItems.push(itemIndex) : false
   }
   ipcRenderer.send('scroll-sync', arrSelectedItems)
+})
+
+const nameInput = document.querySelector('.input--name')
+const codeInput = document.querySelector('.input--code')
+const addBookmarkBtn = document.querySelector('.btn--add-bookmark')
+
+addBookmarkBtn.addEventListener('click', () => {
+  
+  bookmarkletItems.addItem(nameInput.value, codeInput.value, true)
+  nameInput.value = ''
+  codeInput.value = ''
+  nameInput.focus()
 })

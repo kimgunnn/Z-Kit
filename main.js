@@ -109,6 +109,14 @@ ipcMain.on('scroll-sync', (e, arrIndex) => {
   })
 })
 
+ipcMain.on('selected-executeCode', (e, arrIndex, code) => {
+
+  for(item of arrIndex) {
+    arrSubWindows[item].webContents.loadURL(code)
+    arrSubWindows[item].show()
+  }
+})
+
 function createMainWindow() {
 
   // Window state keeper

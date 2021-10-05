@@ -214,6 +214,11 @@ body, input, select, textarea, table, button {
   text-shadow: var(--text-shadow);
 }
 
+.input::placeholder {
+  color: var(--color-grey);
+  text-shadow: var(--text-shadow-grey);
+} 
+
 .input:disabled {
   color: var(--color-grey);
   text-shadow: var(--text-shadow-grey);

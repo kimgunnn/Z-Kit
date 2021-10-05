@@ -19,7 +19,7 @@
             </button>
           </li>
           <li class="gnb__item gnb__item--resizing">
-            <button class="btn">
+            <button class="btn" data-gnb-btn="resizing">
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                 Resizing
@@ -79,7 +79,7 @@
             </button>
           </li>
           <li class="gnb__item gnb__item--bookmarklet">
-            <button class="btn">
+            <button class="btn" data-gnb-btn="bookmarklet">
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                 Bookmarklet
@@ -88,13 +88,13 @@
             <div class="submenu-container submenu-container--bookmarklet">
               <div class="submenu-container__input-area submenu-container__input-area--bookmarklet">
                 <div class="form-control form-control--name">
-                  <input type="text" class="input input--sm">
+                  <input type="text" class="input input--sm input--name" placeholder="Name">
                 </div>
                 <div class="form-control form-control--code">
-                  <input type="text" class="input input--sm">
+                  <input type="text" class="input input--sm input--code" placeholder="Code">
                 </div>
                 <div class="form-control form-control--btn">
-                  <button class="btn btn--icon btn--plus btn--add-size">
+                  <button class="btn btn--icon btn--plus btn--add-bookmark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                   </button>
                 </div>
