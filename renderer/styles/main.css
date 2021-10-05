@@ -206,6 +206,7 @@ body, input, select, textarea, table, button {
 }
 
 .input {
+  width: 100%;
   padding: 8px 14px;
   border-radius: 20px;
   background-color: var(--color-grey-background);
@@ -287,15 +288,14 @@ body, input, select, textarea, table, button {
   vertical-align: middle;
 }
 
-/* Submenu - Resizing */
+/* Submenu */
 
-.submenu-container--resizing {
+.submenu-container {
   position: absolute;
   top: 80px;
   z-index: 110;
   overflow-y: auto;
   height: 260px;
-  margin-left: -200px;
   border-radius: 14px;
   box-sizing: border-box;
   background-color: var(--color-grey-background);
@@ -303,47 +303,91 @@ body, input, select, textarea, table, button {
   display: none
 }
 
-.submenu-container--resizing.open {
-  display: block
-}
-
-.submenu-container--resizing__input-area {
+.submenu-container__input-area {
   position: sticky;
   top: 0;
   display: flex;
   align-items: center;
   gap: 0 10px;
-  padding: 30px 30px 14px;
+  padding: 30px 30px 13px;
   background-color: var(--color-grey-background);
 }
 
-.submenu-container--resizing__input-area .select--device {
+.submenu-container__input-area .form-control--btn {
+  flex: 0 0 auto;
+}
+
+.submenu-container__input-area .btn--plus {
+  border: none;
+}
+
+.submenu-container__list {
+  margin-top: 5px;
+  padding: 0 30px 25px;
+}
+
+.submenu-container__list > li {
+  width: 100%
+}
+
+.submenu-container__list .submenu-container__list--2depth {
+  margin-top: 12px;
+}
+
+.submenu-container__list .submenu-container__list--2depth > li {
+  display: flex;
+  column-gap: 8px;
+  width: 100%;
+}
+
+.submenu-container__list .submenu-container__list--2depth > li + li {
+  margin-top: 10px;
+}
+
+.submenu-container__list .submenu-container__list--2depth > li > .btn--sm {
+  flex: 1 1 100%;
+  border: none;
+  border-radius: 20px;
+}
+
+.submenu-container__list .submenu-container__list--2depth > li > .btn--delete {
+  flex: 0 0 auto;
+}
+
+.submenu-container__list .submenu-container__list--2depth > li > .btn--delete:hover svg {
+  color: var(--color-red);
+}
+
+/* Submenu -- Resizing */
+
+.submenu-container--resizing {
+  margin-left: -200px;
+}
+
+.submenu-container--resizing.open {
+  display: block
+}
+
+.submenu-container__input-area--resizing .select--device {
   width: 110px;
   margin-right: 5px;
 }
 
-.submenu-container--resizing__input-area .input {
+.submenu-container__input-area--resizing .input {
   text-align: center;
 }
 
-.submenu-container--resizing__input-area .btn--plus {
+.submenu-container__input-area--resizing .btn--plus {
   margin-left: 5px;
-  border: none;
 }
 
-.submenu-container--resizing__list {
+.submenu-container__list--resizing {
   display: flex;
   justify-content: space-between;
   gap: 0 30px;
-  margin-top: 4px;
-  padding: 0 30px 30px;
 }
 
-.submenu-container--resizing__list > li {
-  width: 100%
-}
-
-.submenu-container--resizing__list > li > strong[data-device] {
+.submenu-container__list--resizing > li > strong[data-device] {
   width: 34px;
   height: 34px;
   margin: 0 auto;
@@ -352,38 +396,46 @@ body, input, select, textarea, table, button {
   pointer-events: none;
 }
 
-.submenu-container--resizing__list > li > strong[data-device] svg {
+.submenu-container__list--resizing > li > strong[data-device] svg {
   width: 17px;
   height: 17px;
 }
 
-.submenu-container--resizing__list .size-list {
-  margin-top: 12px;
+/* Submenu -- Bookmarklet */
+
+.submenu-container--bookmarklet {
+  margin-left: -62px;
 }
 
-.submenu-container--resizing__list .size-list > li {
+.submenu-container--bookmarklet.open {
+  display: block
+}
+
+.submenu-container__input-area--bookmarklet .form-control--name {
+  width: 70px
+}
+
+.submenu-container__input-area--bookmarklet .form-control--code {
+  width: 100px
+}
+
+.submenu-container__list--bookmarklet > li {
   display: flex;
-  column-gap: 8px;
-  width: 100%;
+  gap: 8px;
 }
 
-.submenu-container--resizing__list .size-list > li + li {
+.submenu-container__list--bookmarklet > li + li {
   margin-top: 10px;
 }
 
-.submenu-container--resizing__list .size-list > li > .btn--sm {
+.submenu-container__list--bookmarklet .btn--sm {
   flex: 1 1 100%;
   border: none;
   border-radius: 20px;
 }
 
-.submenu-container--resizing__list .size-list > li > .btn--delete {
+.submenu-container__list--bookmarklet .btn--delete {
   flex: 0 0 auto;
-  border-radius: 50%;
-}
-
-.submenu-container--resizing__list .size-list > li > .btn--delete:hover svg {
-  color: var(--color-red);
 }
 
 /* 

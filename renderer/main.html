@@ -26,7 +26,7 @@
               </span>
             </button>
             <div class="submenu-container submenu-container--resizing">
-              <div class="submenu-container--resizing__input-area">
+              <div class="submenu-container__input-area submenu-container__input-area--resizing">
                 <div class="form-control form-control--select">
                   <select class="select select--device">
                     <option>Desktop</option>
@@ -48,24 +48,24 @@
                   </button>
                 </div>
               </div>
-              <ul class="submenu-container--resizing__list">
+              <ul class="submenu-container__list submenu-container__list--resizing">
                 <li>
                   <strong data-device="desktop" class="btn btn--icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-monitor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                   </strong>
-                  <ul class="size-list" data-container-desktop></ul>
+                  <ul class="submenu-container__list--2depth" data-container-desktop></ul>
                 </li>
                 <li>
                   <strong data-device="tablet" class="btn btn--icon">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tablet"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
                   </strong>
-                  <ul class="size-list" data-container-tablet></ul>
+                  <ul class="submenu-container__list--2depth" data-container-tablet></ul>
                 </li>
                 <li>
                   <strong data-device="mobile" class="btn btn--icon">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smartphone"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
                   </strong>
-                  <ul class="size-list" data-container-mobile></ul>
+                  <ul class="submenu-container__list--2depth" data-container-mobile></ul>
                 </li>
               </ul>
             </div>
@@ -78,13 +78,29 @@
               </span>
             </button>
           </li>
-          <li class="gnb__item">
+          <li class="gnb__item gnb__item--bookmarklet">
             <button class="btn">
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
                 Bookmarklet
               </span>
             </button>
+            <div class="submenu-container submenu-container--bookmarklet">
+              <div class="submenu-container__input-area submenu-container__input-area--bookmarklet">
+                <div class="form-control form-control--name">
+                  <input type="text" class="input input--sm">
+                </div>
+                <div class="form-control form-control--code">
+                  <input type="text" class="input input--sm">
+                </div>
+                <div class="form-control form-control--btn">
+                  <button class="btn btn--icon btn--plus btn--add-size">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  </button>
+                </div>
+              </div>
+              <ul class="submenu-container__list submenu-container__list--bookmarklet"></ul>
+            </div>
           </li>
         </ul>
       </nav>

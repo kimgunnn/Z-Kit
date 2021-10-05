@@ -40,7 +40,7 @@ exports.delete = (resizingList, item, width, height) => {
 }
 
 exports.addItem = (selectedDevice, width, height, isNew = false) => {
-  const resizingListContainer = document.querySelector(`.size-list[data-container-${selectedDevice}]`)
+  const resizingListContainer = document.querySelector(`.submenu-container__list--2depth[data-container-${selectedDevice}]`)
   const itemNode = document.createElement('li')
 
   itemNode.innerHTML = `
