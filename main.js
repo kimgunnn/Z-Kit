@@ -7,28 +7,23 @@ let arrSubWindows = []
 // Listen for new window item request
 ipcMain.on('new-windowItem', (e, windowUrl) => {
 
-  for(item of arrSubWindows) {
-    if(item.getURL() === windowUrl) {
-      e.sender.send('new-windowItem-success', false)
-      return
-    }
-  }
-
   // Get new window item and send back to renderer
   createSubWindow(windowUrl, (windowInstance, windowInfo) => {
     
+    for(item of arrSubWindows) {
+      if(item.getURL() === windowInfo.url) {
+        e.sender.send('new-windowItem-success', false)
+        windowInstance.destroy()
+        return
+      }
+    }
+
     arrSubWindows.push(windowInstance)
     e.sender.send('new-windowItem-success', windowInfo)
   }, true)
 })
 
 ipcMain.on('window-items', (e, windowItems) => {
-  
-  for(let item of arrSubWindows) {
-    if(item.getURL() === windowItems[0].url) {
-      return
-    }
-  }
 
   for(let item of windowItems) {
     createSubWindow(item.url, (windowInstance) => {
@@ -149,6 +144,9 @@ function createMainWindow() {
     for(let item of arrSubWindows) {
       item.hide()
     }
+  })
+  
+  mainWindow.webContents.once('dom-ready', e => {
     e.sender.send('main-window-ready')
   })
 
