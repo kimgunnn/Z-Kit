@@ -1,6 +1,8 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+
 let mainWindow, scrollSyncWindow
 let arrSubWindows = []
 
