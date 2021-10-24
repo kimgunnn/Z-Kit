@@ -9,17 +9,22 @@ ipcMain.on('new-windowItem', (e, windowUrl) => {
 
   // Get new window item and send back to renderer
   createSubWindow(windowUrl, (windowInstance, windowInfo) => {
-    
-    for(item of arrSubWindows) {
-      if(item.getURL() === windowInfo.url) {
-        e.sender.send('new-windowItem-success', false)
-        windowInstance.destroy()
-        return
+        
+    if(windowInstance) {
+      
+      for(let item of arrSubWindows) {
+        if(item.getURL() === windowInfo.url) {
+          e.sender.send('new-windowItem-success', false)
+          windowInstance.destroy()
+          return
+        }
       }
+      
+      arrSubWindows.push(windowInstance)
+      e.sender.send('new-windowItem-success', windowInfo)
+    } else {
+      e.sender.send('new-windowItem-success', false)
     }
-
-    arrSubWindows.push(windowInstance)
-    e.sender.send('new-windowItem-success', windowInfo)
   }, true)
 })
 
@@ -81,7 +86,7 @@ ipcMain.on('scroll-sync', (e, arrIndex) => {
   
   ipcMain.on('wheel-up', (e, wheelDelta) => {
     
-    for(let item of arrIndex) {   
+    for(let item of arrIndex) {
       arrSubWindows[item].webContents.executeJavaScript(`
 
         if(window.pageYOffset < document.body.offsetHeight) {
@@ -158,9 +163,8 @@ function createMainWindow() {
       })
       arrSubWindows = []
     }
-    mainWindow = null
     scrollSyncWindow.destroy()
-    scrollSyncWindow = null
+    mainWindow = null
   })
 }
 
@@ -173,15 +177,12 @@ function createSubWindow(_url, callback, isInitial = false) {
     minHeight: 681,
     show: false
   })
-
-  subWindow.loadURL(_url)
   
-  subWindow.on('close', e => {
-    e.preventDefault()
-    subWindow.hide()
-    subWindow.webContents.loadURL(_url)
+  subWindow.loadURL(_url).then().catch(() => {
+    callback(false)
+    subWindow.destroy()
   })
-
+  
   if(isInitial) {
     subWindow.webContents.once('did-finish-load', () => {
       const title = subWindow.getTitle()
@@ -200,6 +201,12 @@ function createSubWindow(_url, callback, isInitial = false) {
   } else {
     callback(subWindow)
   }
+  
+  subWindow.on('close', e => {
+    e.preventDefault()
+    subWindow.hide()
+    subWindow.webContents.loadURL(_url)
+  })
 }
 
 function createScrollSyncWindow() {
