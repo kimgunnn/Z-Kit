@@ -1,7 +1,12 @@
 # dependencies
 node_modules
 
-package-lock.json
-
 # misc
 .DS_Store
+
+# build generated
+build/
+dist/
+private/
+
+package-lock.json

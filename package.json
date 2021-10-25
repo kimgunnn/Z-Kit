@@ -1,24 +1,52 @@
 {
-  "name": "z-kit",
+  "name": "Z-Kit",
   "version": "1.0.0",
-  "description": "Screen Comparison Tool",
+  "description": "Screen comparison tool for localization work",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec electron .",
-    "reset": "git reset --hard"
+    "reset": "git reset --hard",
+    "build": "electron-builder -mwl",
+    "release": "electron-builder -mwl -p onTagOrDraft",
+    "win-cert": "electron-builder create-self-signed-cert -p gunnkim"
   },
   "repository": "https://github.com/GunnKimKR/Z-Kit",
+  "homepage": "https://github.com/GunnKimKR/Z-Kit",
   "keywords": [
-    "Screen Comparison Tool"
+    "Screen comparison tool",
+    "Localization work"
   ],
   "author": "Gunn Kim",
   "license": "MIT",
   "devDependencies": {
     "electron": "^13.1.7",
+    "electron-builder": "^22.13.1",
     "nodemon": "^2.0.0"
   },
   "dependencies": {
     "electron-window-state": "^5.0.3"
+  },
+  "build": {
+    "appId": "com.gunn.zkit",
+    "copyright": "Copyright Gunn Kim",
+    "publish": {
+      "provider": "github"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": {
+        "target": "default",
+        "arch": "universal"
+      }
+    },
+    "win": {
+      "certificateFile": "private/gunnkim.pfx",
+      "verifyUpdateCodeSignature": false,
+      "publisherName": "gunnkim"
+    },
+    "linux": {
+      "category": "Utility"
+    }
   }
 }

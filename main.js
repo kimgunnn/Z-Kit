@@ -141,9 +141,6 @@ function createMainWindow() {
   // Manage main window state
   state.manage(mainWindow)
 
-  // Open DevTools
-  // mainWindow.webContents.openDevTools()
-
   // Send renderer a message when app is active
   mainWindow.webContents.on('did-finish-load', e => {
     mainWindow.show()
