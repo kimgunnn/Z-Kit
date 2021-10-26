@@ -1,5 +1,6 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const windowStateKeeper = require('electron-window-state')
+const updater = require('./updater')
 
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
@@ -243,6 +244,9 @@ function createScrollSyncWindow() {
 app.on('ready', () => {
   createMainWindow()
   createScrollSyncWindow()
+  
+  // Check for app updates after 1.5 seconds
+  setTimeout( updater, 1500)
 })
 
 // Quit when all windows are closed - (Not macOS - Darwin)

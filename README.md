@@ -21,6 +21,6 @@ Download latest release 👏
 
 | Windows | macOS (Universal) | GNU/Linux (AppImage) |
 | -- | -- | -- |
-| [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit-Setup-1.0.0.exe) | [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit-1.0.0-universal.dmg) | [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit-1.0.0.AppImage) |
+| [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit.exe) | [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit.dmg) | [Download](https://github.com/GunnKimKR/Z-Kit/releases/latest/download/Z-Kit.AppImage) |
 
 [Electron]: https://electronjs.org/

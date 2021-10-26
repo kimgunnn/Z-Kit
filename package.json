@@ -1,8 +1,9 @@
 {
   "name": "Z-Kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Screen comparison tool for localization work",
   "main": "main.js",
+  "productName": "Z Kit",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec electron .",
@@ -25,6 +26,8 @@
     "nodemon": "^2.0.0"
   },
   "dependencies": {
+    "electron-log": "^4.4.1",
+    "electron-updater": "^4.3.9",
     "electron-window-state": "^5.0.3"
   },
   "build": {
