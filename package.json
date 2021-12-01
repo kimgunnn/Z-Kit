@@ -9,7 +9,8 @@
     "watch": "nodemon --exec electron .",
     "reset": "git reset --hard",
     "build": "electron-builder -mwl",
-    "release": "electron-builder -mwl -p onTagOrDraft",
+    "release": "electron-builder -ml -p onTagOrDraft",
+    "release-win": "electron-builder -w --x64 -p onTagOrDraft",
     "win-cert": "electron-builder create-self-signed-cert -p gunnkim"
   },
   "repository": "https://github.com/GunnKimKR/Z-Kit",
